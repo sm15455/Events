@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConsoleApp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AZURE_USERNAME": "stesa98@hotmail.com"
+      }
+    }
+  }
+}
