@@ -27,6 +27,12 @@ steps:
     ConfigstoreName: 'cfg-appconfig-demo'
     KeyFilter: 'MyConfigurationKey'
 
+- task: CmdLine@2
+  inputs:
+    script: |
+      echo Write your commands here
+      echo $MYCONFIGURATIONKEY
+
 #- task: VSBuild@1
 #  inputs:
 #    solution: '$(solution)'
