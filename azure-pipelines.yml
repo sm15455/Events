@@ -1,4 +1,4 @@
-# ASP.NET
+  # ASP.NET
 # Build and test ASP.NET projects.
 # Add steps that publish symbols, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
@@ -27,11 +27,12 @@ steps:
     ConfigstoreName: 'cfg-appconfig-demo'
     KeyFilter: 'MyConfigurationKey'
 
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
+    targetType: 'inline'
     script: |
-      echo Write your commands here
-      echo %MyConfigurationKey
+      Write-Host VariableValue
+      Write-Host $MyConfigurationKey
 
 #- task: VSBuild@1
 #  inputs:
