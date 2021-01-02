@@ -31,7 +31,7 @@ steps:
   inputs:
     script: |
       echo Write your commands here
-      echo $MyConfigurationKey
+      echo %MyConfigurationKey
 
 #- task: VSBuild@1
 #  inputs:
