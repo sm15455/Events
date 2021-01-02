@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'AzureLowlands2020.AppConfig/AzureLowlands2020.AppConfig.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
