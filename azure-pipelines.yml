@@ -32,7 +32,7 @@ steps:
     targetType: 'inline'
     script: |
       Write-Host VariableValue
-      Write-Host $MyConfigurationKey
+      Write-Host $(MyConfigurationKey)
 
 #- task: VSBuild@1
 #  inputs:
