@@ -21,6 +21,12 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: AzureAppConfiguration@3
+  inputs:
+    azureSubscription: 'Stesa98'
+    ConfigstoreName: 'cfg-appconfig-demo'
+    KeyFilter: 'MyConfigurationKey'
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
