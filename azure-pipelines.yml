@@ -31,7 +31,11 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: 'AzureLowlands2020.AppConfig\**\bin\$(BuildConfiguration)\**\testapp.dll'
+    testAssemblyVer2: |
+      AzureLowlands2020.AppConfig\**\bin\$(BuildConfiguration)\**\testapp.dll
+      !AzureLowlands2020.AppConfig\**\obj\**
+      !AzureLowlands2020.AppConfig\**\**\xunit.runner.visualstudio.testadapter.dll
+      !AzureLowlands2020.AppConfig\**\**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
     searchFolder: '$(System.DefaultWorkingDirectory)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
