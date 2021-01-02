@@ -23,7 +23,7 @@ steps:
 
 - task: AzureAppConfiguration@3
   inputs:
-    azureSubscription: 'Stesa98'
+    azureSubscription: 'SM15455(f0667b19-fb3c-4ca7-b69b-9cbea9c9162a)'
     ConfigstoreName: 'cfg-appconfig-demo'
     KeyFilter: 'MyConfigurationKey'
 
