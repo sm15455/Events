@@ -6,49 +6,41 @@ using System;
 
 namespace WebApp
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			CreateHostBuilder(args).Build().Run();
+		}
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                        .ConfigureAppConfiguration((hostingContext, config) =>
-                        {
-                            var settings = config.Build();
-                            var credentials = new DefaultAzureCredential(
-                                new DefaultAzureCredentialOptions
-                                {
-                                    //ExcludeEnvironmentCredential = true,
-                                    //ExcludeInteractiveBrowserCredential = true,
-                                    ExcludeSharedTokenCacheCredential = true,
-                                    //ExcludeVisualStudioCodeCredential = true,
-                                    //ExcludeVisualStudioCredential = true
-                                }
-                            );
+		public static IHostBuilder CreateHostBuilder(string[] args) =>
+			Host.CreateDefaultBuilder(args)
+				.ConfigureWebHostDefaults(webBuilder =>
+				{
+					webBuilder
+						.ConfigureAppConfiguration((hostingContext, config) =>
+						{
+							var settings = config.Build();
+							var credentials = new DefaultAzureCredential(
+								new DefaultAzureCredentialOptions
+								{
+									ExcludeSharedTokenCacheCredential = true,
+								}
+							);
 
-                            config.AddAzureAppConfiguration(options =>
-                                options
-                                    .Connect(new Uri("https://cfg-appconfig-demo.azconfig.io"), credentials)
-                                    .ConfigureRefresh(c =>
-                                    {
-                                        c
-                                            .Register("Sentinel", true)
-                                            .SetCacheExpiration(new TimeSpan(0, 0, 660));
-                                    })
-                                    .ConfigureKeyVault(kv =>
-                                    {
-                                        kv.SetCredential(credentials);
-                                    })
-                            );
-                        })
+							config.AddAzureAppConfiguration(options =>
+								options
+										.Connect(new Uri("https://cfg-appconfig-demo.azconfig.io"), credentials)
+										.ConfigureRefresh(c =>
+										{
+											c
+												.Register("Sentinel", true)
+												.SetCacheExpiration(new TimeSpan(1, 0, 0));
+										})
+								);
+						})
 
-                        .UseStartup<Startup>();
-                });
-    }
+						.UseStartup<Startup>();
+				});
+	}
 }

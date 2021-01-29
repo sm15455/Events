@@ -1,6 +1,5 @@
 ﻿using Azure.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using System;
 using System.Linq;
 
@@ -16,30 +15,40 @@ namespace ConsoleApp
 				var credentials = new DefaultAzureCredential(
 						new DefaultAzureCredentialOptions
 						{
-							//ExcludeEnvironmentCredential = true,
-							//ExcludeInteractiveBrowserCredential = true,
 							ExcludeSharedTokenCacheCredential = true,
-							//ExcludeVisualStudioCodeCredential = true,
-							//ExcludeVisualStudioCredential = true
 						}
 				);
 
 				options
 						.Connect(new Uri("https://cfg-appconfig-demo.azconfig.io"), credentials)
-						//.ConfigureKeyVault(kv =>
-						//{
-						//	kv.SetCredential(credentials);
-						//})
-						.Select("MyConfigurationKey")
-						////.Select("MyConfigurationKey", "Dev")
-						//.Select("MyCompositeKey*")
-						//.Select("json")
-						//.Select("asset:*").TrimKeyPrefix("asset:")
 						;
 			});
-
 			var config = builder.Build();
-			Console.WriteLine(config["json"]);
+			Console.WriteLine(config["Background"]);
+
+
+			//var builder = new ConfigurationBuilder();
+			//builder.AddAzureAppConfiguration(options =>
+			//{
+			//	var credentials = new DefaultAzureCredential(
+			//			new DefaultAzureCredentialOptions
+			//			{
+			//				ExcludeSharedTokenCacheCredential = true,
+			//			}
+			//	);
+
+			//	options
+			//			.Connect(new Uri("https://cfg-appconfig-demo.azconfig.io"), credentials)
+			//			//.Select("OverrideKey")
+			//			.Select("*")
+			//			.Select("Default:*")
+			//			.Select("ConsoleApp:*")
+			//			.TrimKeyPrefix("Default:")
+			//			.TrimKeyPrefix("ConsoleApp:");
+			//});
+			//var config = builder.Build();
+			//Console.WriteLine(config["OverrideKey"]);
+			//Console.WriteLine(String.Join(",", config.GetSection("Json").GetChildren().Select(c => c.Value)));
 		}
 	}
 }
