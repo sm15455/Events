@@ -1,0 +1,54 @@
+  # ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: 'AzureLowlands2020.AppConfig/AzureLowlands2020.AppConfig.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: AzureAppConfiguration@3
+  inputs:
+    azureSubscription: 'SM15455(f0667b19-fb3c-4ca7-b69b-9cbea9c9162a)'
+    ConfigstoreName: 'cfg-appconfig-demo'
+    KeyFilter: 'MyConfigurationKey'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host VariableValue
+      Write-Host $(MyConfigurationKey)
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      AzureLowlands2020.AppConfig\**\bin\$(BuildConfiguration)\**\testapp.dll
+      !AzureLowlands2020.AppConfig\**\obj\**
+      !AzureLowlands2020.AppConfig\**\**\xunit.runner.visualstudio.testadapter.dll
+      !AzureLowlands2020.AppConfig\**\**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
