@@ -1,0 +1,19 @@
+﻿@page "/serverdatetime"
+@using BC2023.JWTApp.Logic;
+@using Microsoft.AspNetCore.Authorization;
+
+@inject DataService _dataService
+@attribute [Authorize]
+
+<PageTitle>Server date time</PageTitle>
+
+<h3>Current Server time is: @CurrentServerDateTime</h3>
+
+@code {
+    DateTime CurrentServerDateTime { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CurrentServerDateTime = await _dataService.GetServerCurrentDateTimeAsync();
+    }
+}

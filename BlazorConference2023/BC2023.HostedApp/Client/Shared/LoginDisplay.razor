@@ -1,0 +1,24 @@
+﻿@using BC2023.HostedApp.Client.Logic;
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject AccountService AccountService
+@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity?.Name!
+        <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <NavLink href="/login">Log in</NavLink>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    private async Task BeginLogOut()
+    {
+        await AccountService.LogoutAsync();
+        Navigation.NavigateTo("/", true);
+
+    }
+}

@@ -1,0 +1,46 @@
+﻿@page "/login"
+@using BC2023.JWTApp.Logic;
+@inject AccountService AccountService;
+@inject NavigationManager Navigation;
+
+<PageTitle>Index</PageTitle>
+
+<h2 class="white-text"><b>Login</b></h2>
+
+<div class="col-xl-6 col-md-8 col-12 mb-3">
+    <input type="text" @bind="Username" class="form-control dark-theme-textbox" placeholder="username">
+</div>
+
+<div class="col-xl-6 col-md-8 col-12 mb-3">
+    <input type="password" @bind="Password" class="form-control dark-theme-textbox" placeholder="password">
+</div>
+
+<div class="col-xl-6 col-md-8 col-12 row">
+    <div class="col-xl-2 col-lg-2 col-md-6 col-sm-3 col-3">
+        <button class="btn btn-primary" @onclick="Authenticate">Login</button>
+    </div>
+</div>
+
+@if (ShowError)
+{
+    <div class="alert alert-danger"><p>Invalid credentials</p></div>
+}
+
+@code {
+    string Username { get; set; } = String.Empty;
+    string Password { get; set; } = String.Empty;
+    bool ShowError { get; set; }
+
+    public async Task Authenticate()
+    {
+        ShowError = false;
+        if (await AccountService.AuthenticateAsync(Username, Password))
+        {
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            ShowError = true;
+        }
+    }
+}

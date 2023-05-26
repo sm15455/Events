@@ -1,0 +1,14 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize]
+<PageTitle>Index</PageTitle>
+
+<h3>Welcome to protected home page</h3>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    }
+}
